@@ -1,7 +1,7 @@
 munin_pgpool
 ============
 
-A Munin-plugin for pgpool-II written by [Viktor Petersson](http://viktorpetersson.com).
+A [Munin](http://munin-monitoring.org/)-plugin for [pgpool-II](http://www.pgpool.net/mediawiki/index.php/Main_Page) written by [Viktor Petersson](http://viktorpetersson.com).
 
 The plugin plots three values:
 
