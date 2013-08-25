@@ -2,8 +2,10 @@
 
 import psutil, commands, os, sys, subprocess, re
 
+"""
 @author "Viktor Petersson"
 @www "http://viktorpetersson.com"
+"""
 
 # Get variables from config
 host = os.environ['host']
