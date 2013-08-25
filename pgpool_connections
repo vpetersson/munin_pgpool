@@ -11,6 +11,7 @@ port = os.environ['port']
 user = os.environ['user']
 userpwd = os.environ['userpwd']
 timeout = 5
+pcppath = os.environ.get( 'pcppath', '/usr/bin/pcp_pool_status' )
 
 if len(sys.argv) == 2 and sys.argv[1] == "autoconf":
     print 'yes'
@@ -40,7 +41,11 @@ else:
         elif ("idle in transaction" in str(item) and not "PCP" in str(item)):
             idleCount += 1
     
-    pcpstatus = subprocess.check_output(["pcp_pool_status", str(timeout), host, port, user, userpwd])
+    if sys.version_info < ( 2, 7, 0 ):
+        pcpobject = subprocess.Popen( [ pcppath, str(timeout), host, port, user, userpwd ], stdout=subprocess.PIPE )
+        pcpstatus = pcpobject.communicate()[0]
+    else:
+        pcpstatus = subprocess.check_output(["pcp_pool_status", str(timeout), host, port, user, userpwd])
 
     match = re.search(r'(name\s+:\s+num_init_children)\nvalue:\s(\d+)', pcpstatus)
     if match:
