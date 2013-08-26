@@ -12,12 +12,14 @@ The plugin plots three values:
 # Configuration
 
 In order to authenticate to pgpool, we need to provide the credentials for `pcp_pool_status` in plugins.conf:
+If `env.pcppath` is not specified, the plugin executes `/usr/bin/pcp_pool_path`.
 
     [pgpool_*]
     env.host  MyDBServer
     env.port  9898
     env.user  pooladm
     env.userpwd  foobar123
+    env.pcppath  /path/to/pcp_pool_status
 
 
 # Requirements
