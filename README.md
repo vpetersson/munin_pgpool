@@ -54,4 +54,4 @@ This works just as the above plugin, but we look for the string "idle in transac
 ## Access rights to PID file
 Note that you should give a+r access rights to pgpool PID file
 
-    chmod a+x /var/run/pgpool/pgpool.pid
+    chmod a+r /var/run/pgpool/pgpool.pid
