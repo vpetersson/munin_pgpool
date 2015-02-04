@@ -51,6 +51,7 @@ We then just count the number of occurrences and plot the value.
 
 This works just as the above plugin, but we look for the string "idle in transaction".
 
+## Access rights to PID file
 Note that you should give a+r access rights to pgpool PID file
 
     chmod a+x /var/run/pgpool/pgpool.pid
