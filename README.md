@@ -20,7 +20,7 @@ If `env.pcppath` is not specified, the plugin executes `/usr/bin/pcp_pool_path`.
     env.user  pooladm
     env.userpwd  foobar123
     env.pcppath  /path/to/pcp_pool_status
-
+    env.pid_file /var/run/pgpool/pgpool.pid 
 
 # Requirements
 
@@ -51,3 +51,7 @@ We then just count the number of occurrences and plot the value.
 
 This works just as the above plugin, but we look for the string "idle in transaction".
 
+## Access rights to PID file
+Note that you should give a+r access rights to pgpool PID file
+
+    chmod a+r /var/run/pgpool/pgpool.pid

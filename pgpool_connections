@@ -14,6 +14,12 @@ user = os.environ['user']
 userpwd = os.environ['userpwd']
 timeout = 5
 pcppath = os.environ.get( 'pcppath', '/usr/bin/pcp_pool_status' )
+pid_file = os.environ.get( 'pid_file', '' )
+parent_pid = 0
+
+if ( pid_file != '' ):
+  from subprocess import call
+  parent_pid = int(open(pid_file, 'r').read().split(b'\0',1)[0])
 
 if len(sys.argv) == 2 and sys.argv[1] == "autoconf":
     print 'yes'
@@ -38,9 +44,9 @@ else:
     pl = psutil.process_iter()
     
     for item in pl:
-        if ("wait for connection request" in str(item) and not "PCP" in str(item)):
+        if ((item.ppid == parent_pid or parent_pid == 0) and "wait for connection request" in str(item) and not "PCP" in str(item)):
             waitCount += 1
-        elif ("idle in transaction" in str(item) and not "PCP" in str(item)):
+        elif ((item.ppid == parent_pid or parent_pid == 0) and "idle in transaction" in str(item) and not "PCP" in str(item)):
             idleCount += 1
     
     if sys.version_info < ( 2, 7, 0 ):
