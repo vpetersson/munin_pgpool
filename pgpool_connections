@@ -7,6 +7,22 @@ import psutil, commands, os, sys, subprocess, re
 @www "http://viktorpetersson.com"
 """
 
+def processname(process):
+    # Note that in psutil 2.0, various
+    # properties were turned into methods
+    if callable(process.cmdline):
+        cmdline = process.cmdline()
+    else:
+        cmdline = process.cmdline
+    if len(cmdline) == 0:
+        if callable(process.name):
+            return process.name()
+        else:
+            return process.name
+    else:
+        return cmdline[0]
+
+
 # Get variables from config
 host = os.environ['host']
 port = os.environ['port']
@@ -44,9 +60,10 @@ else:
     pl = psutil.process_iter()
     
     for item in pl:
-        if ((item.ppid == parent_pid or parent_pid == 0) and "wait for connection request" in str(item) and not "PCP" in str(item)):
+        procname = processname(item)
+        if ((item.ppid == parent_pid or parent_pid == 0) and "wait for connection request" in procname and not "PCP" in procname):
             waitCount += 1
-        elif ((item.ppid == parent_pid or parent_pid == 0) and "idle in transaction" in str(item) and not "PCP" in str(item)):
+        elif ((item.ppid == parent_pid or parent_pid == 0) and "idle in transaction" in procname and not "PCP" in procname):
             idleCount += 1
     
     if sys.version_info < ( 2, 7, 0 ):
