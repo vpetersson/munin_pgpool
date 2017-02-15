@@ -27,8 +27,6 @@ def processname(process):
 host = os.environ['host']
 port = os.environ['port']
 user = os.environ['user']
-userpwd = os.environ['userpwd']
-timeout = 5
 pcppath = os.environ.get( 'pcppath', '/usr/bin/pcp_pool_status' )
 pid_file = os.environ.get( 'pid_file', '' )
 parent_pid = 0
@@ -67,10 +65,10 @@ else:
             idleCount += 1
     
     if sys.version_info < ( 2, 7, 0 ):
-        pcpobject = subprocess.Popen( [ pcppath, str(timeout), host, port, user, userpwd ], stdout=subprocess.PIPE )
+        pcpobject = subprocess.Popen( [ pcppath, "-h", host, "-p", port, "-U", user, "-w" ], stdout=subprocess.PIPE )
         pcpstatus = pcpobject.communicate()[0]
     else:
-        pcpstatus = subprocess.check_output(["pcp_pool_status", str(timeout), host, port, user, userpwd])
+        pcpstatus = subprocess.check_output(["pcp_pool_status", "-h", host, "-p", port, "-U", user, "-w"])
 
     match = re.search(r'(name\s+:\s+num_init_children)\nvalue:\s(\d+)', pcpstatus)
     if match:
