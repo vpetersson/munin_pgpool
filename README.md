@@ -11,14 +11,14 @@ The plugin plots three values:
 
 # Configuration
 
-In order to authenticate to pgpool, we need to provide the credentials for `pcp_pool_status` in plugins.conf:
+In order to authenticate to pgpool, we need to provide the username for `pcp_pool_status` in plugins.conf and set [.pcppass](http://www.pgpool.net/docs/pgpool-II-3.5.4/doc/pgpool-en.html#password_file) for postgres user.
 If `env.pcppath` is not specified, the plugin executes `/usr/bin/pcp_pool_path`.
 
     [pgpool_*]
+    user   postgres
     env.host  MyDBServer
     env.port  9898
     env.user  pooladm
-    env.userpwd  foobar123
     env.pcppath  /path/to/pcp_pool_status
     env.pid_file /var/run/pgpool/pgpool.pid 
 
@@ -50,8 +50,3 @@ We then just count the number of occurrences and plot the value.
 ## Idle connections
 
 This works just as the above plugin, but we look for the string "idle in transaction".
-
-## Access rights to PID file
-Note that you should give a+r access rights to pgpool PID file
-
-    chmod a+r /var/run/pgpool/pgpool.pid
