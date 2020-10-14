@@ -20,7 +20,8 @@ def processname(process):
         else:
             return process.name
     else:
-        return cmdline[0]
+        #return cmdline[0]
+	return " ".join(cmdline)
 
 
 # Get variables from config
@@ -59,9 +60,9 @@ else:
     
     for item in pl:
         procname = processname(item)
-        if ((item.ppid == parent_pid or parent_pid == 0) and "wait for connection request" in procname and not "PCP" in procname):
+        if ((item.ppid() == parent_pid or parent_pid == 0) and "wait for connection request" in procname and not "PCP" in procname):
             waitCount += 1
-        elif ((item.ppid == parent_pid or parent_pid == 0) and "idle in transaction" in procname and not "PCP" in procname):
+        elif ((item.ppid() == parent_pid or parent_pid == 0) and "idle" in procname and not "PCP" in procname):
             idleCount += 1
     
     if sys.version_info < ( 2, 7, 0 ):
